@@ -2,27 +2,37 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
-import { Menu, Search } from "lucide-react";
 
-import { Button } from "../../ui/button";
-import MobileMenu from "./MobileMenu";
-import { ModeToggle } from "../../ModeToggle";
+const SearchBar = dynamic(() => import("./SearchBar"), {
+  ssr: false,
+  loading: () => (
+    <div className="hidden md:flex items-center gap-2 opacity-50">
+      <div className="h-9 w-40 rounded-md border border-border/40 bg-card/40 animate-pulse" />
+      <div className="h-9 w-16 rounded-md border border-border/40 bg-card/40 animate-pulse" />
+    </div>
+  ),
+});
 
-// Dialog bileşenlerimiz (src/components/ui/dialog.tsx varsa)
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "../../ui/dialog";
+const MobileSearchDialog = dynamic(() => import("./MobileSearchDialog"), {
+  ssr: false,
+  loading: () => (
+    <div className="md:hidden h-10 w-10 rounded-md border border-border/40 bg-card/40 animate-pulse" />
+  ),
+});
+
+const ModeToggle = dynamic(() => import("../../ModeToggle").then((mod) => ({ default: mod.ModeToggle })), {
+  ssr: false,
+  loading: () => <span className="h-10 w-10 rounded-md border border-border/40 bg-card/40 animate-pulse" />,
+});
+
+const MobileMenu = dynamic(() => import("./MobileMenu"), {
+  ssr: false,
+  loading: () => <span className="md:hidden h-10 w-10 rounded-md border border-border/40 bg-card/40 animate-pulse" />,
+});
 
 export default function Header() {
-  const [query, setQuery] = useState("");
-  const [mobileQuery, setMobileQuery] = useState("");
   const router = useRouter();
   const pathname = usePathname() || "/";
 
@@ -109,73 +119,8 @@ export default function Header() {
 
 
         <div className="flex items-center gap-2">
-          {/* Desktop: inline search (md +) */}
-          <div className="hidden md:flex items-center gap-2">
-            <div className="flex items-center bg-card/40 border border-border/30 rounded-md px-2 py-1 transition-all duration-200">
-              <Search className="h-4 w-4 text-muted-foreground" aria-hidden />
-              <label htmlFor="header-search" className="sr-only">Site içinde ara</label>
-              <input
-                id="header-search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") submitSearch(query);
-                }}
-                placeholder="Ara..."
-                className="ml-2 w-40 bg-transparent text-sm placeholder:opacity-60 outline-none text-[color:var(--color-my-primary-foreground)]"
-                aria-label="Ara"
-              />
-            </div>
-
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => submitSearch(query)}
-              aria-label="Aramayı başlat"
-            >
-              Ara
-            </Button>
-          </div>
-
-          {/* Mobile: Dialog ile arama */}
-          <div className="md:hidden">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button aria-label="Mobil arama" variant="secondary" size="icon">
-                  <Search className="h-5 w-5" aria-hidden />
-                </Button>
-              </DialogTrigger>
-
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Site içinde ara</DialogTitle>
-                  <DialogDescription>Aramak için bir kelime veya cümle yaz.</DialogDescription>
-                </DialogHeader>
-
-                <div className="mt-3 flex w-full items-center gap-2">
-                  <input
-                    autoFocus
-                    value={mobileQuery}
-                    onChange={(e) => setMobileQuery(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        submitSearch(mobileQuery);
-                      }
-                    }}
-                    placeholder="Ara..."
-                    className="w-full rounded-md border border-border/30 bg-background/70 px-3 py-2 text-[color:var(--color-my-primary-foreground)] outline-none"
-                  />
-                  <Button
-                    onClick={() => submitSearch(mobileQuery)}
-                    variant="secondary"
-                    size="sm"
-                  >
-                    Ara
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
+          <SearchBar onSubmit={submitSearch} />
+          <MobileSearchDialog onSubmit={submitSearch} />
 
           <ModeToggle />
 

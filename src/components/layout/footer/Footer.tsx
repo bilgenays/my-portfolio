@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { Github, Instagram, Linkedin } from "lucide-react";
+import Github from "lucide-react/dist/esm/icons/github";
+import Instagram from "lucide-react/dist/esm/icons/instagram";
+import Linkedin from "lucide-react/dist/esm/icons/linkedin";
 import { Button } from "../../ui/button";
 
 export default function Footer() {

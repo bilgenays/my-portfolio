@@ -1,7 +1,9 @@
 // src/app/not-found.tsx
 import React from "react";
 import Link from "next/link";
-import { XCircle, ArrowLeftRight, ExternalLink } from "lucide-react";
+import XCircle from "lucide-react/dist/esm/icons/x-circle";
+import ArrowLeftRight from "lucide-react/dist/esm/icons/arrow-left-right";
+import ExternalLink from "lucide-react/dist/esm/icons/external-link";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 

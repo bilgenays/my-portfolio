@@ -1,7 +1,5 @@
 
-import { NextRequest } from "node_modules/next/server";
-
-export async function GET(request: NextRequest) {
+export async function GET() {
     const posts = [
         { id: 1, title: "E-Ticaret Sitesi", content: "Ürün listeleme, kategori/filtreleme, ürün detay, sepet ve ödeme adımlarını içeren uçtan uca bir e-ticaret akışı geliştirdim. Bileşen tabanlı yapı kurup sayfa durumları (yükleniyor/boş/hatâ), form doğrulama ve bildirim akışlarını düzenledim. API tüketimiyle ürün, sepet ve sipariş verilerini yönettim; giriş/kayıt ve yetkilendirme ekranlarını bağladım. Mobil uyumluluk, temel SEO (meta/başlık yapısı) ve performans tarafında (lazy load, route-level code split) iyileştirmeler yaptım." },
         { id: 2, title: "Köpek Duygu Analizi Mobil Uygulaması", content: "Köpek görüntülerinden duygusal durum tahmini yapan bir mobil arayüz tasarladım. Görsel yüklendiğinde arka planda çalışan model sonuçlarını okunabilir etiketlere dönüştürüp güven skoru ile gösterdim. Kullanıcıya örnek görseller, çekim talimatları ve sonuç açıklamaları sunarak deneyimi sade bir akış üzerine kurdum." },

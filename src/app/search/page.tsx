@@ -36,7 +36,9 @@ export default function SearchPage() {
 
   return (
     <main className="max-w-6xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Arama sonuçları: "{q}"</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        Arama sonuçları: &quot;{q}&quot;
+      </h1>
 
       <section>
         <h2 className="text-xl font-semibold mb-2">Projeler</h2>

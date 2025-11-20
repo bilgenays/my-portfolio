@@ -2,10 +2,27 @@
 "use client";
 
 import React, { useState } from "react";
-import { Mail, Github, Linkedin, Instagram } from "lucide-react";
+import dynamic from "next/dynamic";
+import Mail from "lucide-react/dist/esm/icons/mail";
+import Github from "lucide-react/dist/esm/icons/github";
+import Linkedin from "lucide-react/dist/esm/icons/linkedin";
+import Instagram from "lucide-react/dist/esm/icons/instagram";
 import { Button } from "../../../components/ui/button";
 import { Card, CardContent } from "../../../components/ui/card";
-import ReCAPTCHA from "react-google-recaptcha";
+import type ReCAPTCHAComponent from "react-google-recaptcha";
+import type { ComponentProps } from "react";
+
+type ReCAPTCHAProps = ComponentProps<typeof ReCAPTCHAComponent>;
+
+const ReCAPTCHA = dynamic<ReCAPTCHAProps>(() => import("react-google-recaptcha"), {
+  ssr: false,
+  loading: () => (
+    <div
+      aria-hidden
+      className="mt-4 h-[78px] w-full rounded-md border border-border/30 bg-muted animate-pulse"
+    />
+  ),
+});
 
 export default function ContactPage() {
   const [email, setEmail] = useState("");
@@ -58,7 +75,7 @@ export default function ContactPage() {
       setCaptchaToken(null);
       resetStatusLater(4000);
 
-    } catch (err) {
+    } catch {
       setStatus("error");
       setNotice("Gönderim sırasında hata oluştu.");
       resetStatusLater();
